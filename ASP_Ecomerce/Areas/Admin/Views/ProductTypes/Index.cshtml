@@ -1,0 +1,41 @@
+﻿@model IEnumerable<ASP_Ecomerce.Models.ProductTypes>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<h1>Index</h1>
+
+<div class="Container">
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-info">Product Type List</h2>
+        </div>
+        <div class="col-6">
+            <a asp-action="Create" class="btn btn-info text-right">Create Product</a>
+        </div>
+    </div>
+</div>
+
+<br />
+
+<div>
+    <table class="table table-dark">
+        <tr>
+            <th>Id</th>
+            <th>ProductType</th>
+        </tr>
+
+        @foreach (var data in Model)
+        {
+            <tr>
+                <td>@data.Id</td>
+                <td>@data.ProductType</td>
+            </tr>
+        }
+    </table>
+
+</div>
+
+
