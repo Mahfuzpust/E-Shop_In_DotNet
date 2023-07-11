@@ -1,0 +1,39 @@
+﻿@model IEnumerable<ASP_Ecomerce.Models.SpecialTags>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-primary">Special Tag Name</h2>
+        </div>
+        <div class="col-6">
+            <a asp-action="Create" class="btn btn-primary"><i class="fa-sharp fa-solid fa-plus"></i> Create SpecialTag</a>
+        </div>
+    </div>
+
+    <div>
+        <table class="table table-primary">
+            <tr>
+                <th>Id</th>
+                <th>SpecialTag</th>
+                <th></th>
+                <td>Action</td>
+            </tr>
+            @foreach (var data in Model)
+            {
+                <tr>
+                    <td>@data.Id</td>
+                    <td>@data.SpecialTag</td>
+                    <td>
+                        <partial name="_ButtonPartialSpecialTag" model="@data.Id" />
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+</div>

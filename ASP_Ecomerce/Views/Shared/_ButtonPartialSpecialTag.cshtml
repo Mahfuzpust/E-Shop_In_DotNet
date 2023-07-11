@@ -1,0 +1,11 @@
+﻿@model int
+@{
+    ViewData["Title"] = "_ButtonPartialSpecialTag";
+}
+
+<td style="width:150px">
+    <div class="btn-group">
+        <a asp-action="Edit" asp-controller="SpecialTags" class="btn btn-primary" asp-route-id="@Model"><i class="fa-solid fa-pen-to-square"></i></a>
+        <a asp-action="Details" asp-controller="SpecialTags" class="btn btn-info" asp-route-id="@Model"><i class="fa-solid fa-list"></i></a>
+        <a asp-action="Delete" asp-controller="SpecialTags" class="btn btn-success" asp-route-id="@Model"><i class="fa-sharp fa-solid fa-trash"></i></a>
+    </div>
