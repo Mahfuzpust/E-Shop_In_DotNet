@@ -44,7 +44,7 @@ namespace ASP_Ecomerce.Areas.Admin.Controllers
 
                 if(image == null)
                 {
-                    products.Image = "Images/NoIma.jpg";
+                    products.Image = "Images/Noimg.jpg";
                 }
 
                 dbContext.Products.Add(products);
@@ -97,5 +97,21 @@ namespace ASP_Ecomerce.Areas.Admin.Controllers
             }
             return View(products);
         }
+
+        //GET Details 
+        public IActionResult Details(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var product = dbContext.Products.Include(c=>c.ProductTypes).Include(c=>c.SpecialTags).FirstOrDefault(c => c.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+
     }
 }
