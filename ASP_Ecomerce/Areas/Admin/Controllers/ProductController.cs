@@ -31,31 +31,41 @@ namespace ASP_Ecomerce.Areas.Admin.Controllers
         }
         //Post Create Method
         [HttpPost]
-        public async Task<ActionResult> Create(Products products,IFormFile image)
+        public async Task<IActionResult> Create(Products product, IFormFile image)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
+                var searchProduct = dbContext.Products.FirstOrDefault(c => c.Name == product.Name);
+                if (searchProduct != null)
+                {
+                    ViewBag.message = "This product is already exist";
+                    ViewData["productTypeId"] = new SelectList(dbContext.ProductTypes.ToList(), "Id", "ProductType");
+                    ViewData["TagId"] = new SelectList(dbContext.SpecialTags.ToList(), "Id", "Name");
+                    return View(product);
+                }
+
                 if (image != null)
                 {
                     var name = Path.Combine(env.WebRootPath + "/Images", Path.GetFileName(image.FileName));
                     await image.CopyToAsync(new FileStream(name, FileMode.Create));
-                    products.Image = "Images/" + image.FileName;
+                    product.Image = "Images/" + image.FileName;
                 }
 
-                if(image == null)
+                if (image == null)
                 {
-                    products.Image = "Images/Noimg.jpg";
+                    product.Image = "Images/Noimg.jpg";
                 }
-
-                dbContext.Products.Add(products);
+                dbContext.Products.Add(product);
                 await dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(products);
+
+            return View(product);
         }
 
+
         //Edit Get Product
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int? id)
         {
             ViewData["productTypeId"] = new SelectList(dbContext.ProductTypes.ToList(), "Id", "ProductType");
             ViewData["TagId"] = new SelectList(dbContext.SpecialTags.ToList(), "Id", "SpecialTag");
@@ -99,7 +109,7 @@ namespace ASP_Ecomerce.Areas.Admin.Controllers
         }
 
         //GET Details 
-        public IActionResult Details(int id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -113,5 +123,37 @@ namespace ASP_Ecomerce.Areas.Admin.Controllers
             return View(product);
         }
 
+        //Get Delete Method
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var product = dbContext.Products.Include(c => c.ProductTypes).Include(f => f.SpecialTags).FirstOrDefault(c => c.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+        //POST Delete Method
+        [HttpPost]
+        [ActionName("Delete")]
+        public async Task<IActionResult>DeleteConfirm(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var product = dbContext.Products.FirstOrDefault(c => c.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            dbContext.Products.Remove(product);
+            await dbContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

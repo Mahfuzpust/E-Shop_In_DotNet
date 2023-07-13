@@ -42,7 +42,7 @@ namespace ASP_Ecomerce.Areas.Admin.Controllers
         }
 
         //Get Method Product Types Edit
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -72,7 +72,7 @@ namespace ASP_Ecomerce.Areas.Admin.Controllers
             }
         }
         //Get Method Product Types Details
-        public IActionResult Details(int id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
