@@ -21,6 +21,22 @@ namespace ASP_Ecomerce.Areas.Admin.Controllers
         {
             return View(dbContext.Products.Include(c => c.ProductTypes).Include(f => f.SpecialTags).ToList());
         }
+
+        //POST Index Action Method
+        [HttpPost]
+        public IActionResult Index(decimal? lowAmount, decimal? largeAmount)
+        {
+            var products = dbContext.Products.Include(c=>c.ProductTypes).Include(c=>c.SpecialTags)
+                .Where(c=>c.Price >= lowAmount && c.Price <= largeAmount).ToList();
+
+            if (lowAmount==null || largeAmount == null)
+            {
+                products = dbContext.Products.Include(c => c.ProductTypes).Include(c => c.SpecialTags)
+                .ToList();
+            }
+            return View(products);
+        }
+
         //Get Create Method
         public IActionResult Create()
         {
@@ -35,12 +51,12 @@ namespace ASP_Ecomerce.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var searchProduct = dbContext.Products.FirstOrDefault(c => c.Name == product.Name);
-                if (searchProduct != null)
+               var searchProduct = dbContext.Products.FirstOrDefault(f=>f.Name == product.Name);
+                if(searchProduct != null)
                 {
                     ViewBag.message = "This product is already exist";
                     ViewData["productTypeId"] = new SelectList(dbContext.ProductTypes.ToList(), "Id", "ProductType");
-                    ViewData["TagId"] = new SelectList(dbContext.SpecialTags.ToList(), "Id", "Name");
+                    ViewData["TagId"] = new SelectList(dbContext.SpecialTags.ToList(), "Id", "SpecialTag");
                     return View(product);
                 }
 
