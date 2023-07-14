@@ -78,6 +78,13 @@
 
 @section scripts{
     <script type="text/javascript">
-        let table = new DataTable('#myTable');
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
     </script>
 }
