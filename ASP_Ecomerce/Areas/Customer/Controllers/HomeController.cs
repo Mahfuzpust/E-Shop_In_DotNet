@@ -1,5 +1,6 @@
 ﻿using ASP_Ecomerce.Data;
 using ASP_Ecomerce.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -32,6 +33,21 @@ namespace ASP_Ecomerce.Areas.Customer.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        //Get Product details 
+        public IActionResult Details(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            var product = dBContext.Products.Include(c=>c.ProductTypes).FirstOrDefault(c=>c.Id==id);
+            if(product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
         }
     }
 }
