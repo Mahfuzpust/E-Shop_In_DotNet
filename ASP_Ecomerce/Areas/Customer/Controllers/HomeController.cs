@@ -42,7 +42,7 @@ namespace ASP_Ecomerce.Areas.Customer.Controllers
             {
                 return NotFound();
             }
-            var product = dBContext.Products.Include(c=>c.ProductTypes).FirstOrDefault(c=>c.Id==id);
+            var product = dBContext.Products.Include(c=>c.ProductTypes).Include(c => c.SpecialTags).FirstOrDefault(c=>c.Id==id);
             if(product == null)
             {
                 return NotFound();
