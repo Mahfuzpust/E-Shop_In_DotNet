@@ -1,5 +1,7 @@
-﻿using ASP_Ecomerce.Models;
+﻿using ASP_Ecomerce.Data;
+using ASP_Ecomerce.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace ASP_Ecomerce.Areas.Customer.Controllers
@@ -7,16 +9,17 @@ namespace ASP_Ecomerce.Areas.Customer.Controllers
     [Area("Customer")]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+       private readonly ApplicationDBContext dBContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ApplicationDBContext dBContext)
         {
-            _logger = logger;
+            this.dBContext = dBContext;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var products = this.dBContext.Products.Include(c=>c.ProductTypes).Include(f=>f.SpecialTags).ToList();
+            return View(products);
         }
 
         public IActionResult Privacy()
