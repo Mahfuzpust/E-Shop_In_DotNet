@@ -79,5 +79,22 @@ namespace ASP_Ecomerce.Areas.Customer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //Remove cart POST Method
+        [HttpPost]
+        public IActionResult Remove(int? id)
+        {
+            List<Products> products = HttpContext.Session.Get<List<Products>>("products");
+            if(products != null)
+            {
+                var product = products.FirstOrDefault(c=>c.Id==id);
+                if (product != null)
+                {
+                    products.Remove(product);
+                    HttpContext.Session.Set("products", products);
+                }
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
