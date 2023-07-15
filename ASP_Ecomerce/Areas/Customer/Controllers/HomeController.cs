@@ -1,6 +1,8 @@
 ﻿using ASP_Ecomerce.Data;
 using ASP_Ecomerce.Models;
+using ASP_Ecomerce.Utility;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -49,5 +51,33 @@ namespace ASP_Ecomerce.Areas.Customer.Controllers
             }
             return View(product);
         }
+
+        //POST Product details 
+        [HttpPost]
+        [ActionName("Detail")]
+        public ActionResult ProductDetail(int? id)
+        {
+            List<Products> products = new List<Products>();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var product = dBContext.Products.Include(c => c.ProductTypes).FirstOrDefault(c => c.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            products = HttpContext.Session.Get<List<Products>>("products");
+            if (products == null)
+            {
+                products = new List<Products>();
+            }
+            products.Add(product);
+            HttpContext.Session.Set("products", products);
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
