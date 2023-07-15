@@ -79,6 +79,23 @@ namespace ASP_Ecomerce.Areas.Customer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //Get Remove Action Method
+        [ActionName("Remove")]
+        public IActionResult RemoveToCart(int? id)
+        {
+            List<Products> products = HttpContext.Session.Get<List<Products>>("products");
+            if (products != null)
+            {
+                var product = products.FirstOrDefault(c => c.Id == id);
+                if (product != null)
+                {
+                    products.Remove(product);
+                    HttpContext.Session.Set("products", products);
+                }
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
         //Remove cart POST Method
         [HttpPost]
         public IActionResult Remove(int? id)
@@ -95,6 +112,18 @@ namespace ASP_Ecomerce.Areas.Customer.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
+        //Get Product Cart Action Method
+        public IActionResult Cart()
+        {
+            List<Products> products = HttpContext.Session.Get<List<Products>>("products");
+            if (products == null)
+            {
+                products = new List<Products>();
+            }
+            return View(products);
+        }
+
 
     }
 }
