@@ -5,53 +5,96 @@
 }
 
 <h1>Your Cart</h1>
-<br />
+<a asp-action="Index" asp-controller="Home" class="btn btn-sm btn-success">Back to Home</a>
+<br /> <br />
 
 
-<div>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th class="col-3">Image</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>ProductType</th>
-                <th>ProductColor</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var items in Model)
-            {
+<div class="row">
+    <div class="col-8">
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td>
-                        <img src="~/@items.Image" width="200px" height="150px">
-                    </td>
-                    <td>@items.Name</td>
-                    <td>@items.Price</td>
-                    <td>@items.ProductTypes.ProductType</td>
-                    <td>@items.ProductColor</td>
-                    <td>
-                        <a asp-action="Remove" asp-area="Customer" asp-controller="Home" asp-route-id="@items.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
-                    </td>
+                    <th class="col-1">Image</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>ProductType</th>
+                    <th>ProductColor</th>
+                    <th>Action</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+
+            <tbody>
+                @foreach (var items in Model)
+                {
+                    <tr>
+                        <td>
+                            <img src="~/@items.Image" width="100px" height="100px">
+                        </td>
+                        <td>@items.Name</td>
+                        <td>@items.Price</td>
+                        <td>@items.ProductTypes.ProductType</td>
+                        <td>@items.ProductColor</td>
+                        <td>
+                            <a asp-action="Remove" asp-area="Customer" asp-controller="Home" asp-route-id="@items.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-4">
+        <div class="row">
+            <div class="col-4">
+               
+            </div>
+            <div class="col-6 text-right">
+                <h3>Total Amount</h3>
+                <h3>Grant Total : @Model.Sum(c=>c.Price) </h3>
+                <a asp-area="Customer" asp-action="Index" asp-controller="" class="btn btn-info">Process to Checkout</a>
+            </div>
+        </div>
+    </div>
 </div>
 
+@*
+<div class="row">
+    <div class="col-8">
+        @foreach (var items in Model)
+        {
+           <div class="row">
+                <div class="col-3">
+                    <img src="~/@items.Image" width="200px" height="200px">
+                </div>
+                <div class="col-3">
+                    <h2>Name : @items.Name</h2>
+                    <h4>@items.Price</h4>
+                    <h4>@items.ProductTypes.ProductType</h4>
+                    <h5>@items.ProductColor</h5>
+                    
+                </div>
+           </div>
+
+        }
+    </div>
+
+    <div class="col-4">
+        <div class="text-right">
+            <h3>Total Amount</h3>
+            <h3>Grant Total : @Model.Sum(c=>c.Price) </h3>
+            <a asp-area="Customer" asp-action="Index" asp-controller="" class="btn btn-info">Process to Checkout</a>
+        </div>
+    </div>
+</div>
+
+
+<br /> <br />
 <div class="row">
     <div class="col-6">
         <a asp-action="Index" asp-controller="Home" class="btn btn-success">Back to Home</a>
     </div>
-    <div class="col-6 text-right">
-        <h3>Total Amount</h3>
-        <h3>Grant Total : @Model.Sum(c=>c.Price) </h3>
-        <a asp-area="Customer" asp-action="Index" asp-controller="" class="btn btn-info">Process to Checkout</a>
-    </div>
 </div>
-
+*@
 
 
 
