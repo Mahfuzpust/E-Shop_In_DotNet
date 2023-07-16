@@ -7,14 +7,12 @@
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 @{
-
     List<Products> products = HttpContextAccessor.HttpContext.Session.Get<List<Products>>("products");
     Products product = null;
     if (products != null)
     {
         product = products.FirstOrDefault(c => c.Id == Model.Id);
     }
-
 }
 
 
