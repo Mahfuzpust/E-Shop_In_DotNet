@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using X.PagedList;
 
 namespace ASP_Ecomerce.Areas.Customer.Controllers
 {
@@ -19,9 +20,9 @@ namespace ASP_Ecomerce.Areas.Customer.Controllers
             this.dBContext = dBContext;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
-            var products = this.dBContext.Products.Include(c=>c.ProductTypes).Include(f=>f.SpecialTags).ToList();
+            var products = this.dBContext.Products.Include(c=>c.ProductTypes).Include(f=>f.SpecialTags).ToList().ToPagedList(page??1,9);
             return View(products);
         }
 
