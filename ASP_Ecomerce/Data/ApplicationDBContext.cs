@@ -12,7 +12,7 @@ namespace ASP_Ecomerce.Data
         {
 
         }
-
+        //These changes or pushed to github
         public DbSet<ProductTypes> ProductTypes { get; set; }
         public DbSet<SpecialTags> SpecialTags { get; set; }
         public DbSet<Products> Products { get; set; }
