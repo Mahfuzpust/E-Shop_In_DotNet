@@ -13,6 +13,8 @@ namespace ASP_Ecomerce.Data
 
         }
         //These changes or pushed to github
+
+        //If any changes on remote repository then pull on visula studio 
         public DbSet<ProductTypes> ProductTypes { get; set; }
         public DbSet<SpecialTags> SpecialTags { get; set; }
         public DbSet<Products> Products { get; set; }
