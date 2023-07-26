@@ -10,6 +10,8 @@ builder.Services.AddControllersWithViews();
 
 // I work dot net
 
+//Testing agian
+
 
 builder.Services.AddDbContext<ApplicationDBContext>(option =>
 {
